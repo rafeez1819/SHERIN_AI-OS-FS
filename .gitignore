@@ -1,0 +1,50 @@
+# ───────── Python ─────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+env/
+venv/
+.env
+.env.*
+
+# ───────── Kivy / Buildozer / APK ─────────
+.spec
+*.apk
+*.keystore
+*.gradle/
+buildozer.spec.bak
+.gradle/
+.docker/
+.cache/
+bin/
+local.properties
+assets/*.mp4
+assets/*.wav
+assets/*.ogg
+assets/*.jpg
+assets/*.png
+
+# ───────── Logs & Memory ─────────
+*.log
+memory/logs/
+memory/signal_cache/
+
+# ───────── System & OS Junk ─────────
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+
+# ───────── IDE Specific ─────────
+.vscode/
+.idea/
+*.swp
+
+# ───────── GitHub Actions ─────────
+.github/workflows/*.old.yml
