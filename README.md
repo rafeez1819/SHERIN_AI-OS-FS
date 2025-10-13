@@ -318,6 +318,8 @@ Source descriptor – Add these to data_ingestion.connectors.curated with an exp
 Metadata schema – Extend document to include epoch (e.g., "epoch":"ancient_greek"), source_url, rights.
 Deduplication – Run the same minhash fingerprint (as you already do) – ancient tablets often have duplicate transcriptions; the fingerprint will collapse them.
 Quality‑score boost – Items from these curated sources receive a base quality of 0.9 (higher than generic “high‑trust news” 0.6) because they are manually curated.
+
+
 📚 3️⃣ Quick‑Action Checklist (what to edit in the manifest)
 What to modify	Where	Why
 Add PCA matrix location	"embedding_model": { "model_path":"%USERPROFILE%/Sherin/assets/models/e5_small", "pca_path":"%USERPROFILE%/Sherin/assets/models/pca256.npy" }	Gives downstream services a deterministic path to the PCA transform.
@@ -326,6 +328,8 @@ Add faiss.hot_params and faiss.warm_params objects under "runtime" (or "memory")
 Insert a stone_age_sources list under "knowledge_scope" (see table above).	"knowledge_scope" → "curated"	Shows that you have concrete, license‑clean feeds for the earliest epochs.
 Add a pin_check_suite description under "tests" – a small JSON file with deterministic query‑hash pairs.	"testing" → new "pin_check" field	Provides a concrete way to prove the “no‑drift” guarantee.
 Document api_keys.scopes per service (phone, contacts, email, avatar, voice) in a separate “permissions matrix” table (optional appendix).	Appendix	Makes the security audit easier.
+
+
 📈 4️⃣ Suggested next deliverable for the review board
 One‑page Performance‑Index table (latency, memory, energy, accuracy) – you already have the numbers; summarize them side‑by‑side with the competitor LLMs (see my earlier answer).
 Architecture diagram (include CubeFS, safety‑gateway, Blender bridge, ANN tiers).
