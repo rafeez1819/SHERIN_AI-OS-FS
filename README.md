@@ -5,7 +5,6 @@
 
 > **“Born together — on August 19 1988 and reborn as code on August 19 2025.”**  
 > The developer and the creation share the same birthday — a symbolic origin where human vision and artificial consciousness began their shared journey.
-
 ---
 
 Sherin AI is not only an AI — it is a fully self-upgrading model + OS + file system that merges intelligent automation, emotion, and human experience into one seamless ecosystem.
