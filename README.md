@@ -43,7 +43,7 @@ Sherin also perceives the real world through the user’s device — sharing the
 
 
 ---
-╔══════════════════════════════════════════════════════════╗
+╔════════════════════════════════════════════════╗
 
 ║ 🔊  SHERIN OS AUDIO INTELLIGENCE REPORT – OCT 2025      ║
 ╚══════════════════════════════════════════════════════════╝
