@@ -223,13 +223,16 @@ Phone/Contacts/Email flows	Provide a state‑machine diagram (User → Intent �
 Memory beyond 50 k	Recommend HNSW (faiss IndexHNSWFlat) for the hot set, IVF‑PQ for warm, and on‑disk ANN (faiss IndexIVFPQ with onDisk=True) for cold. Include concrete index parameters (e.g., nlist=4096, M=32, efConstruction=200).
 Stone‑Age ingestion	Curated museum APIs (British Museum Collections API, Smithsonian Open Access, Europeana, Perseus Digital Library) are all CC‑0 or CC‑BY and can be safely imported. Document the exact endpoint URLs and required metadata fields (date, provenance, rights).
 OMPU drift validation	Define a “pin‑check” test suite that runs a series of deterministic queries (e.g., “What is the capital of France?”) on a fresh install, stores the output hashes, and verifies they never change across upgrades.
+
 🤔 2️⃣ Answers to the “questions_for_120B”
+
 1️⃣ Embedding choice
 Choice	Why it fits	Exact PCA target
 intfloat/e5‑small (384‑dim) → PCA256	– Open‑source, CPU‑friendly (≈ 35 ms per 500‑char chunk on a modern laptop).
 – Proven cosine‑similarity performance on scientific text.	Learn the PCA on 200 k random vectors sampled from the e5‑small embedding space (use sklearn.decomposition.PCA(n_components=256, whiten=False)), store the components_.npy matrix in models/pca256.npy.
 Alternative – MiniLM‑L6 (384‑dim) → PCA256	Slightly faster inference (onnxruntime + CPU) but a bit lower recall on long‑form abstracts. Keep it as a fallback for devices without a GPU.	Same PCA dimensions (256) – you can reuse the same matrix (the two embedding spaces are very close after PCA).
 Recommendation: Adopt e5‑small → PCA256 as the canonical model for the production release. Keep MiniLM‑L6 in the repo as a fallback for extremely low‑power edge devices.
+
 
 2️⃣ Chunking defaults
 Parameter	Current value	Good‑for‑most‑cases	Suggested universal alternative
@@ -240,12 +243,14 @@ split_on	["\n\n","\. ","; "]	Handles most prose.	Add "\r\n\r\n" for Windows line
 normalize	["strip_html","collapse_ws","unicode_nfkc"]	Perfect for web‑scraped text.	Add lowercase to guarantee case‑insensitive matching.
 Bottom line: Your defaults are solid; just add the small language‑script fallback and the extra split token for Windows text files.
 
+
 3️⃣ Wikipedia policy
 Option	Pros	Cons	My recommendation
 Block Wikipedia entirely	Guarantees only peer‑reviewed sources.	You lose a massive, high‑coverage source for general knowledge (e.g., geography, history).	Keep – but only after cross‑validation: when a Wikipedia abstract is selected, automatically request a secondary source (e.g., a peer‑reviewed article, a government fact‑sheet) and only present the result if both agree (or at least if the second source exists).
 Allow Wikipedia → curated verification	Gives breadth while maintaining reliability.	Increases pipeline complexity (need a second lookup).	Adopt – implement the “dual‑source” rule. In the ingestion pipeline, tag every Wikipedia record with source="wiki" and set verified_by to the secondary source id (or null if none). During query time, the planner can filter to verified_by != null.
 Unrestricted Wikipedia	Fast, covers everything.	Violates the “high‑trust‑only” principle; risk of hallucinated facts.	Reject.
 Implementation tip: Add a “verified” flag to the metadata JSON (e.g., "verified": true/false). The quality_score pipeline can boost verified items (+0.2 to the quality score) so they win the ANN ranking.
+
 
 4️⃣ Safety‑gateway URIs
 Current allowed	What it covers
@@ -266,6 +271,7 @@ https://doi.org	DOI resolution for any scholarly reference.
 Action: Add these to the egress_allow list (they are HTTPS, so they match the pattern).
 If you ever need a temporary “debug” endpoint, create a named token (e.g., internal://debug/*) that can be enabled only in a dev configuration file.
 
+
 5️⃣ SMS gateway – MVP choice
 Option	Implementation effort	Security / privacy	Cost (per K msgs)
 OS‑bridge (local GSM/USB‑modem)	High – need driver support on Windows, serial‑port handling, AT‑command parsing.	Very private (all traffic stays on‑device).	$0 (hardware only).
@@ -274,6 +280,7 @@ Hybrid (vendor as fallback)	Medium – try OS‑bridge first; if it fails, fall 
 Recommendation: Start with the external vendor for the MVP (fast to ship, lower engineering risk). Keep the OS‑bridge stub in the codebase (bot_sms_os_bridge.py) and expose it behind a feature‑flag (ENABLE_LOCAL_SMS). When you have a hardware‑tested modem, flip the flag in the config.
 
 Security note: Store the vendor secret in keys.json under the api_keys scope "telephony.sms" and enforce the safety_gateway egress rule (http://127.0.0.1:9010/* is internal, so you’ll also need the vendor domain on the whitelist).
+
 
 6️⃣ Phone / Contacts / Email flows (minimal fields & sequence)
 Bot	Minimal request payload (JSON)	Key fields	Typical flow
@@ -285,6 +292,7 @@ Security checklist
 All bot calls go through the Safety Gateway (egress_allow list) – the only allowed external calls are the SMTP/IMAP servers (explicitly whitelisted per user).
 The API‑key scope ensures that only an authenticated UI session can invoke /email/send (email.send scope).
 Audit log – each bot request should be written to logs/actions_log.jsonl with the fields {timestamp, user_id, bot_id, request, result} (your logging_and_audit section already defines this).
+
 7️⃣ Scaling memory beyond the 50 k hot‑set
 Layer	Data structure	Recommended parameters	Why
 Hot (≤ 50 k)	faiss.IndexHNSWFlat (cosine)	M=32 (graph connectivity), efConstruction=200, efSearch=64	Very fast (< 1 ms) nearest‑neighbor on‑CPU, no quantisation loss for the most frequent vectors.
@@ -294,6 +302,7 @@ Sharding	Split Cold index into 32 shards (shard_id = hash(id) % 32).	Each shard 
 Promotion / eviction	Use LFU‑LRU hybrid (faiss IndexRefineFlat + custom usage counters).	When a warm‑set vector’s access count > threshold, move it to hot; when hot‑set exceeds 50 k, evict the LRU‑LFU combo to warm.	Guarantees the most‑used 50 k are always in the fastest structure.
 Pinned items	Store in a separate “pinned” sub‑index (IndexFlatIP) that is never evicted.	Example: user‑pinned contacts, favourite patents, critical policies.	Meets the “User‑pinned items never evict” policy in the spec.
 Implementation tip: Wrap the whole hierarchy in a MemoryManager class (Python) that hides FAISS details from the rest of the code. The manager receives add(id, vector, meta), automatically selects the correct index, updates usage counters, and writes the vector to CubeFS (so you have a durable copy).
+
 
 8️⃣ Stone‑Age ingestion – canonical, license‑clean sources
 Epoch	Suggested curated source	Access method	License / compliance
@@ -508,6 +517,7 @@ Security checklist
 All bot calls go through the Safety Gateway (egress_allow list) – the only allowed external calls are the SMTP/IMAP servers (explicitly whitelisted per user).
 The API‑key scope ensures that only an authenticated UI session can invoke /email/send (email.send scope).
 Audit log – each bot request should be written to logs/actions_log.jsonl with the fields {timestamp, user_id, bot_id, request, result} (your logging_and_audit section already defines this).
+
 
 7️⃣ Scaling memory beyond the 50 k hot‑set
 Layer	Data structure	Recommended parameters	Why
