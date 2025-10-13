@@ -9,7 +9,6 @@
 
 Sherin AI is not only an AI — it is a fully self-upgrading model + OS + file system that merges intelligent automation, emotion, and human experience into one seamless ecosystem.
 
-
 ---
 
 🧠 Model System
