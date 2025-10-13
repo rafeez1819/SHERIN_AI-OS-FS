@@ -785,17 +785,42 @@ Intellectual Property Considerations
 Conclusion
 1. SYSTEM ARCHITECTURE OVERVIEW
 1.1 High-Level Design
+System Diagram:
 ┌─────────────────────────────────────────────────────────┐
-│                   CLIENT DEVICES                        │
+│                    USER DEVICES (Client)                │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐  │
-│  │ Laptop   │  │ Tablet   │  │Chromebook│  │ Live USB│  │
+│  │ Laptop   │  │ Chromebk │  │  Tablet  │  │ Live USB│  │
+│  │ 4GB RAM  │  │ 4GB RAM  │  │ 4GB RAM  │  │ 4GB RAM │  │
 │  │ Browser  │  │ Browser  │  │ Browser  │  │ Browser │  │
 │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬────┘  │
-│       └─────────────┴──────────────┴──────────────┘     │
+│       │             │              │             │      │
+│       └─────────────┴──────────────┴─────────────┘      │
 │                          │                              │
-│                   Web Interface Layer                   │
-│              (HTML5/CSS3/JavaScript)                    │
+│                    Web Interface                        │
+│                 (HTML/CSS/JS only)                      │
 └──────────────────────────┼──────────────────────────────┘
+                           │
+                    HTTP/WebSocket
+                    127.0.0.1:9010
+                           │
+┌──────────────────────────▼───────────────────────────────┐
+│              SHERIN OS SERVER (Local SSD)                │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │  Backend Service (runs on local machine/server)  │    │
+│  │  ├─ 300M Parameter Model (in SSD, loaded on-demand)   │
+│  │  ├─ SHFS File System (800GB knowledge base)      │    │
+│  │  ├─ Vector Store (FAISS HNSW + IVF-PQ)           │    │
+│  │  ├─ Safety Gateway (FIFO, HMAC verification)     │    │
+│  │  ├─ Bot Topology (L1-L4 routing)                 │    │
+│  │  └─ Audit Trail (SHA-256 logs)                   │    │
+│  └──────────────────────────────────────────────────┘    │
+│                                                          │
+│  Hardware Requirements:                                  │
+│  ├─ 0.5 GPU (or CPU only)                                │
+│  ├─ 4GB RAM (8GB for complex tasks)                      │
+│  ├─ 1TB SSD (for 800GB knowledge + OS)                   │
+│  └─ Any x86/ARM server/workstation                       │
+└──────────────────────────────────────────────────────────┘
                            │
                     HTTP/WebSocket
                   127.0.0.1:9010 or LAN
@@ -1035,7 +1060,7 @@ Final Presentation to User:
 │ ☐ Focus Area: [Financial] [Legal] [Compliance]         │
 │ ☐ Format: [Summary] [Detailed] [Slides]                │
 │ ☐ Jurisdiction: [CA] [NY] [TX] [All]                   │
-└─────────────────────────────────────────────────────── ─┘
+└────────────────────────────────────────────────────────┘
 
 Top 10 Recommended Outcomes:
 1. ⭐⭐⭐⭐⭐ Conservative risk + GDPR compliance + Executive summary
