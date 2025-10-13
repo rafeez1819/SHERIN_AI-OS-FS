@@ -463,6 +463,8 @@ Stone‑Age ingestion	Curated museum APIs (British Museum Collections API, Smith
 OMPU drift validation	Define a “pin‑check” test suite that runs a series of deterministic queries (e.g., “What is the capital of France?”) on a fresh install, stores the output hashes, and verifies they never change across upgrades.
 
 🤔 2️⃣ Answers to the “questions_for_120B”
+
+
 1️⃣ Embedding choice
 Choice	Why it fits	Exact PCA target
 intfloat/e5‑small (384‑dim) → PCA256	– Open‑source, CPU‑friendly (≈ 35 ms per 500‑char chunk on a modern laptop).
