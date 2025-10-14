@@ -120,7 +120,7 @@ And one day… translates existence itself.
 
 # ─────────────────────────────────────────────
 # 🔹 Sherin OS — Daily Log : 2025-10-14
-# Camera-Mic Cadence | Canvas WS Chat | Audiosense (Shazam) v1
+ Camera-Mic Cadence | Canvas WS Chat | Audiosense (Shazam) v1
 # ─────────────────────────────────────────────
 
 📅 Date: 2025-10-14
@@ -128,25 +128,25 @@ And one day… translates existence itself.
 🧩 Focus: Vision-Audio coordination + privacy-first sensory layer
 
 # 1️⃣ Camera cadence
-# Every 30 s capture tick + sync signal to mic probe
-# → vision_probe logs hashed frame meta only (no image store)
+ Every 30 s capture tick + sync signal to mic probe
+ → vision_probe logs hashed frame meta only (no image store)
 C:\Sherin_OS\NDIR\Canvas\projects\vision_probe\
 │ vision_probe.py
 │ vision_audit.log
 
 # 2️⃣ Canvas WS chat (local only)
-# Simple FastAPI WebSocket demo → two browser tabs talk
-# Includes banned-word moderation + hash-chain audit
+ Simple FastAPI WebSocket demo → two browser tabs talk
+ Includes banned-word moderation + hash-chain audit
 C:\Sherin_OS\NDIR\Canvas\projects\demo_chat\
 │ server.py
 │ client.html
 │ canvas_audit.log
 
 # 3️⃣ Audiosense-Probe v1  (Shazam-like)
-# Mic opens 5 s every 30 s, RMS-gated, fingerprints ambient sound
-# → SHA-256 hash only, no raw audio
-# → Toast popup 1-3 s with song title / source
-# → Requires CONSENT.OK + 120B approval
+ Mic opens 5 s every 30 s, RMS-gated, fingerprints ambient sound
+ → SHA-256 hash only, no raw audio
+ → Toast popup 1-3 s with song title / source
+ → Requires CONSENT.OK + 120B approval
 C:\Sherin_OS\NDIR\Canvas\projects\audiosense\
 │ audio_probe.py
 │ settings.json
@@ -155,7 +155,7 @@ C:\Sherin_OS\NDIR\Canvas\modules\
 │ audiosense_probe_v1.json
 
 # 4️⃣ Policy + approval (120B)
-# Policy file restricts roles and export
+ Policy file restricts roles and export
 C:\Sherin_OS\NDIR\Canvas\policy\policy.json
 Allowed roles : student, guardian, local_user
 Export allowed: false
