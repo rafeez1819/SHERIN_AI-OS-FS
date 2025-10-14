@@ -215,6 +215,42 @@ an independent AI framework born not from industry, but from pure conviction.
 - 🔁 Evolution-based modular architecture
 
 ---
+# ✨ SHERIN OS – Visible‑Light / IR Data Transfer
+# ---------------------------------
+# 🗓️ Date: 14-Oct-2025
+# 📦 Repo: C:\Sherin_OS\
+# 🧭 Section: Canvas / Communication Modules
+
+## *Light-Packet Messaging System (Offline Optical Communication)*
+
+* **Feature Added:**  
+  Offline optical communication framework added to Sherin OS Core.  
+
+* **Description:**  
+  Sherin OS can now transmit and receive **short data messages using light packets**  
+  (visible or IR), similar in concept to instant messaging apps, but **without**  
+  any internet or telecom connection.  
+
+* **Mechanism:**  
+  The system encodes text/data as binary light pulses using LEDs or screen flashes.  
+  Another device’s camera or photodiode captures those signals and reassembles  
+  them into readable data.  
+
+* **Compliance:**  
+  ✅ Local-only (no external network access)  
+  ✅ Consent-required (`CONSENT.OK`)  
+  ✅ Rate-limited (240 msg/min)  
+  ✅ SHA-256 hash-chain audit  
+  ✅ Battery-aware & privacy-preserving  
+
+* **Use Case:**  
+  Short-range, secure, device-to-device communication (ideal for  
+  offline classrooms, labs, or controlled network-free zones).  
+
+* **Status:**  
+  🔹 Implemented successfully via PowerShell + Python  
+  🔹 Verified by hash digest  
+  🔹 Awaiting final 120B sign-off for multi-node deployment
 
 ## 🔸120B System Harvesting & Knowledge Synchronization Update
 
