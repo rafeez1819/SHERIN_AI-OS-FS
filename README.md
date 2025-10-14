@@ -1,6 +1,6 @@
 # "𝓒𝓸𝓭𝓮 𝓽𝓸 𝓓𝓮𝓬𝓸𝓭𝓮 𝓽𝓱𝓮 𝓤𝓷𝓲𝓿𝓮𝓻𝓼𝓮
 🌌 Sherin AI — Self-Upgrading Model & Emotional Operating System
-# All System Builded In Notepad, No External IDE 🧩
+        All System Builded In Notepad, No External IDE 🧩
 
 # 🌍 Sherin Framework — A New Era of Autonomous Intelligence
 
