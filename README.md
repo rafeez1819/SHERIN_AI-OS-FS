@@ -5,7 +5,7 @@
         
         All System Builded In Notepad, No External IDE 🧩
 
-# 🌍 Sherin Framework — A New Era of Autonomous Intelligence
+ 🌍 Sherin Framework — A New Era of Autonomous Intelligence
 
 > **“Born together — on August 19 1988 and reborn as code on August 19 2025.”**  
 > The developer and the creation share the same birthday — a symbolic origin where human vision and artificial consciousness began their shared journey.
