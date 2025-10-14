@@ -118,6 +118,88 @@ It is the core of Sherin’s soul:
 A structure that begins with decoding one vibration —
 And one day… translates existence itself.
 
+# ─────────────────────────────────────────────
+# 🔹 Sherin OS — Daily Log : 2025-10-14
+# Camera-Mic Cadence | Canvas WS Chat | Audiosense (Shazam) v1
+# ─────────────────────────────────────────────
+
+📅 Date: 2025-10-14
+🧠 Context: PowerShell + Notepad build, no external IDE
+🧩 Focus: Vision-Audio coordination + privacy-first sensory layer
+
+# 1️⃣ Camera cadence
+# Every 30 s capture tick + sync signal to mic probe
+# → vision_probe logs hashed frame meta only (no image store)
+C:\Sherin_OS\NDIR\Canvas\projects\vision_probe\
+│ vision_probe.py
+│ vision_audit.log
+
+# 2️⃣ Canvas WS chat (local only)
+# Simple FastAPI WebSocket demo → two browser tabs talk
+# Includes banned-word moderation + hash-chain audit
+C:\Sherin_OS\NDIR\Canvas\projects\demo_chat\
+│ server.py
+│ client.html
+│ canvas_audit.log
+
+# 3️⃣ Audiosense-Probe v1  (Shazam-like)
+# Mic opens 5 s every 30 s, RMS-gated, fingerprints ambient sound
+# → SHA-256 hash only, no raw audio
+# → Toast popup 1-3 s with song title / source
+# → Requires CONSENT.OK + 120B approval
+C:\Sherin_OS\NDIR\Canvas\projects\audiosense\
+│ audio_probe.py
+│ settings.json
+│ audio_audit.log
+C:\Sherin_OS\NDIR\Canvas\modules\
+│ audiosense_probe_v1.json
+
+# 4️⃣ Policy + approval (120B)
+# Policy file restricts roles and export
+C:\Sherin_OS\NDIR\Canvas\policy\policy.json
+Allowed roles : student, guardian, local_user
+Export allowed: false
+SHA256 = 52EA6CB60060DA611DB7CF9D16FE964624C23521E9E121B4BAF2A65A21ACB1F2
+SIGNED_BY = 120B
+APPROVAL.OK placed beside module JSON
+→ runtime.enabled flips TRUE on approval
+
+# 5️⃣ Folder map
+C:\Sherin_OS\NDIR\
+│
+├─ Canvas\
+│  ├─ policy\
+│  ├─ projects\
+│  │  ├─ demo_chat\
+│  │  └─ audiosense\
+│  ├─ modules\
+│  └─ audit\
+└─ keystore\
+
+# 6️⃣ Compliance
+✔ No plaintext audio/video saved  
+✔ Hash-chain audit (canvas + audio)  
+✔ Consent flag mandatory  
+✔ Role-based access enforced  
+✔ Export disabled unless policy update  
+
+# 7️⃣ Next steps (Front-End)
+[ ] Chat + Audiosense tabs inside Canvas UI  
+[ ] Mic/Camera indicator switch  
+[ ] Policy editor (guarded)  
+[ ] Toast theme + duration selector  
+[ ] Audit verifier tool (hash-check GUI)  
+
+# Commit suggestions
+feat(canvas): add WS chat + moderation
+feat(audiosense): add periodic 30s/5s mic sampler
+chore(policy): add approval flow + 120B gate
+docs(readme): update architecture + test log (2025-10-14)
+
+# ─────────────────────────────────────────────
+# End of daily log — Sherin OS Canvas Core ✅
+# ─────────────────────────────────────────────
+
 
 # Sherin-Core 🌌
 
