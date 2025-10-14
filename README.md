@@ -119,7 +119,7 @@ A structure that begins with decoding one vibration —
 And one day… translates existence itself.
 
 # ────────────────────────────────────────────
-# 🔹 Sherin OS — Daily Log : 2025-10-14
+# 🔹 Sherin OS — Camera-Mic Cadence
  Camera-Mic Cadence | Canvas WS Chat | Audiosense (Shazam) v1
 # ────────────────────────────────────────────
 
@@ -142,7 +142,7 @@ C:\Sherin_OS\NDIR\Canvas\projects\demo_chat\
 │ client.html
 │ canvas_audit.log
 
-# 3️⃣ Audiosense-Probe v1  (Shazam-like)
+# 3️⃣ Audiosense-Probe v1  (Shazam-like Music Recognisation)
  Mic opens 5 s every 30 s, RMS-gated, fingerprints ambient sound
  → SHA-256 hash only, no raw audio
  → Toast popup 1-3 s with song title / source
@@ -217,9 +217,9 @@ an independent AI framework born not from industry, but from pure conviction.
 ---
 # ✨ SHERIN OS – Visible‑Light / IR Data Transfer
 # ---------------------------------
-# 🗓️ Date: 14-Oct-2025
-# 📦 Repo: C:\Sherin_OS\
-# 🧭 Section: Canvas / Communication Modules
+ 🗓️ Date: 14-Oct-2025
+ 📦 Repo: C:\Sherin_OS\
+ 🧭 Section: Canvas / Communication Modules
 
 ## *Light-Packet Messaging System (Offline Optical Communication)*
 
