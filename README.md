@@ -89,7 +89,7 @@ Sherin connects with a dedicated hardware companion called HoloLink — a hybrid
 It includes encoders, sensors, and joystick modules, designed for manual or physical interaction when required.
 The unit resembles a lightweight head-mounted interface — providing real-time feedback and spatial control, similar to futuristic assistant gear.
 
-# 🌈 HoloLink – Data & Logs Persistence (Color Edition)
+# 🌈 HoloLink – Data & Logs Persistence
 
 ![status](https://img.shields.io/badge/Persistence-OFF%20by%20default-6aa84f?style=for-the-badge&logo=files&logoColor=white)
 ![safety](https://img.shields.io/badge/Safety-First-e06666?style=for-the-badge&logo=ESET&logoColor=white)
