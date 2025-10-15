@@ -130,9 +130,6 @@ The unit resembles a lightweight head-mounted interface — providing real-time 
 * **Networking:** `publish(` (MQTT), `HTTPClient`, `WiFiClient`  
 * If none are found → the build is **non-persistent**.
 
-<details>
-<summary><b>📦 Recommended defaults (project policy)</b></summary>
-
 * Default: **no persistence**
   * `#define HL_ENABLE_FLASH_LOG 0`
   * `#define HL_ENABLE_SD_LOG 0`
