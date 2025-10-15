@@ -89,7 +89,66 @@ Sherin connects with a dedicated hardware companion called HoloLink — a hybrid
 It includes encoders, sensors, and joystick modules, designed for manual or physical interaction when required.
 The unit resembles a lightweight head-mounted interface — providing real-time feedback and spatial control, similar to futuristic assistant gear.
 
+# 🌈 HoloLink – Data & Logs Persistence (Color Edition)
 
+![status](https://img.shields.io/badge/Persistence-OFF%20by%20default-6aa84f?style=for-the-badge&logo=files&logoColor=white)
+![safety](https://img.shields.io/badge/Safety-First-e06666?style=for-the-badge&logo=ESET&logoColor=white)
+![transport](https://img.shields.io/badge/Transport-MQTT%2FBLE%2FHTTP-3c78d8?style=for-the-badge&logo=arm&logoColor=white)
+![device](https://img.shields.io/badge/Device-ESP32-6fa8dc?style=for-the-badge&logo=espressif&logoColor=white)
+
+## ✨ TL;DR
+* ⚡ Applying power **does not** save logs or files by itself.
+* 💾 Nothing is written unless firmware calls a storage API (SPIFFS/LittleFS, Preferences/NVS, SD).
+* ☁️ Data only leaves the device if code **publishes** over network (MQTT/HTTP).
+
+## 🎯 Scope
+* **Device:** ESP32-based HoloLink / Neural Mask  
+* **Goal:** Show exactly **when** data is saved and **how** to verify persistence.
+
+## 🔌 When you ONLY apply power
+* The ESP32 boots the **last flashed firmware** from internal flash.
+* You might see serial prints over USB (COM) **only** if a terminal is open.
+* **No files or logs are saved** locally or to the host **by default**.
+
+## 💽 When data *IS* actually saved
+* **Flash (SPIFFS / LittleFS)**  
+  * Saved if code uses: `SPIFFS.begin()`, `LittleFS.begin()`, `open()`, `write()`.
+  * Use-cases: configs, small caches, calibration.
+* **Preferences / NVS (EEPROM-style)**  
+  * Saved if code uses: `Preferences.begin()`, `put*()`, `commit()` (or legacy `EEPROM.*`).
+  * Use-cases: Wi-Fi creds, feature flags.
+* **SD / SD_MMC card**  
+  * Saved if code uses: `SD.begin()`, `open()`, `file.print()/write()`.
+  * Use-cases: sensor logs, big files.
+* **Network (MQTT / HTTP)**  
+  * Not local persistence, but your data **leaves the device** when calling `mqtt.publish(...)`, `HTTPClient.POST(...)`, etc.
+
+## 🕵️ Quick Verification (code grep checklist)
+* **Filesystems:** `SPIFFS`, `LittleFS`, `FS.h`, `File`, `open(`, `begin(`  
+* **Preferences/NVS:** `Preferences`, `EEPROM`, `put*(`, `get*(`, `commit(`  
+* **SD:** `SD.`, `SD_MMC.`, `open(` on SD handles  
+* **Networking:** `publish(` (MQTT), `HTTPClient`, `WiFiClient`  
+* If none are found → the build is **non-persistent**.
+
+<details>
+<summary><b>📦 Recommended defaults (project policy)</b></summary>
+
+* Default: **no persistence**
+  * `#define HL_ENABLE_FLASH_LOG 0`
+  * `#define HL_ENABLE_SD_LOG 0`
+  * `#define HL_ENABLE_PREFS 0`
+* Enable a flag **only** when that persistence is intentional.
+</details>
+
+## 🧭 Data Flow (visual)
+```mermaid
+flowchart LR
+    PWR[Power On ⚡] --> FW{Firmware calls storage?}
+    FW -- No --> EP[Ephemeral only 🟢]
+    FW -- SPIFFS/LittleFS --> FL[Flash Write 💾]
+    FW -- Preferences/NVS --> NV[NVS Key/Value 🗂️]
+    FW -- SD/SD_MMC --> SD[(SD Card 📀)]
+    FW -- MQTT/HTTP --> NW[(Broker/Server ☁️)]
 ---
 
 🚨 Emergency & Signal-Free Communication
