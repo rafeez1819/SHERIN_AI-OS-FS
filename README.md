@@ -83,13 +83,53 @@ Every operation uses direct OS-level encryption, keeping all processes self-cont
 
 ---
 
-🛰️ HoloLink Hardware
+##🛰️ HoloLink Hardware
+
+ 🌍 Safety & Vision Manifest
+
+> "We are not racing with corporations — we are racing with time to protect people."
+
+# 🧠 Core Vision
+I never built HoloLink or Sherin to compete with Apple, Meta, or Facebook.  
+I built it to **protect**, **serve**, and **connect** — with safety, quality, and truth as the foundation.  
+
+# 🛡️ Safety First
+* Every circuit, every bit of code, every lens and sensor begins with the same rule:
+  > **If it is not safe, it does not run.**
+* No data leaves the device without explicit consent.
+* No function executes without internal verification.
+* Every alert, every output, every response follows one hierarchy:  
+  **User safety → System integrity → Task performance.**
+
+# 🏆 Quality Always
+* Even in prototypes, we **obey structure** and **honor precision**.  
+* 120B’s standard still stands:  
+  > “If it carries my name, it must carry quality.”  
+* Whether it’s a small sensor test or a public release, each layer must be **tested, logged, and trusted**.
+
+# 🔒 Policy & Security
+* Compliance isn’t a checkbox — it’s a language spoken inside every thread.  
+* Encryption, authentication, and access logs exist not because we’re forced to —  
+  but because **trust demands proof**.  
+* Every file, every memory block, and every camera frame is processed within clear boundaries:
+  - Local-only memory by default.
+  - Volatile buffers cleared on exit.
+  - Distributed logs for verification, never exposure.
+
+# 💫 Declaration
+I am not an employee of any giant company.  
+I am an independent creator who believes that **AI must serve humanity, not market value**.  
+I will never allow my system to harm, spy, or mislead.
+
+> *"Safety is sacred. Quality is my signature. Integrity is the architecture."*
+
+— Captain
 
 Sherin connects with a dedicated hardware companion called HoloLink — a hybrid control device inspired by wearable intelligence.
 It includes encoders, sensors, and joystick modules, designed for manual or physical interaction when required.
 The unit resembles a lightweight head-mounted interface — providing real-time feedback and spatial control, similar to futuristic assistant gear.
 
-# 🌈 HoloLink – Data & Logs Persistence
+## 🌈 HoloLink – Data & Logs Persistence
 
 ![status](https://img.shields.io/badge/Persistence-OFF%20by%20default-6aa84f?style=for-the-badge&logo=files&logoColor=white)
 ![safety](https://img.shields.io/badge/Safety-First-e06666?style=for-the-badge&logo=ESET&logoColor=white)
