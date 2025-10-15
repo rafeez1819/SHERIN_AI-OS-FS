@@ -83,7 +83,7 @@ Every operation uses direct OS-level encryption, keeping all processes self-cont
 
 ---
 
-##🛰️ HoloLink Hardware
+### 🛰️ HoloLink Hardware
 
  🌍 Safety & Vision Manifest
 
