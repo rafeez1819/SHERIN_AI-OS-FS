@@ -138,17 +138,7 @@ The unit resembles a lightweight head-mounted interface — providing real-time 
   * `#define HL_ENABLE_SD_LOG 0`
   * `#define HL_ENABLE_PREFS 0`
 * Enable a flag **only** when that persistence is intentional.
-</details>
-
-## 🧭 Data Flow (visual)
-```mermaid
-flowchart LR
-    PWR[Power On ⚡] --> FW{Firmware calls storage?}
-    FW -- No --> EP[Ephemeral only 🟢]
-    FW -- SPIFFS/LittleFS --> FL[Flash Write 💾]
-    FW -- Preferences/NVS --> NV[NVS Key/Value 🗂️]
-    FW -- SD/SD_MMC --> SD[(SD Card 📀)]
-    FW -- MQTT/HTTP --> NW[(Broker/Server ☁️)]
+  
 ---
 
 🚨 Emergency & Signal-Free Communication
