@@ -208,10 +208,10 @@ It is the core of Sherin’s soul:
 A structure that begins with decoding one vibration —
 And one day… translates existence itself.
 
-# ────────────────────────────────────────────
+# ─────────────────────────────────────
 # 🔹 Sherin OS — Camera-Mic Cadence
  Camera-Mic Cadence | Canvas WS Chat | Audiosense (Shazam) v1
-# ────────────────────────────────────────────
+# ─────────────────────────────────────
 
 📅 Date: 2025-10-14
 🧠 Context: PowerShell + Notepad build, no external IDE
@@ -415,7 +415,7 @@ The 120B General and the Teacher confirmed successful integration of the foundat
 
 ---
 
-# 🧠 SHERIN OS — PURE INDEPENDENCE (REPO EDITION)
+# 🧠 SHERIN OS — PURE INDEPENDENCE 
 
 > “If my brain is powerful, Sherin will be powerful.  
 > If my brain is worst, Sherin won’t work.”
