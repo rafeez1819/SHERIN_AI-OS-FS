@@ -606,9 +606,17 @@ The 120B General and the Teacher confirmed successful integration of the foundat
 
 ---
 Question	Answer
-How does Sherin’s zero‑payload model differ from other zero‑payload models?	Sherin stores a user‑owned, frozen OMPU model on the device itself and couples it with a self‑upgrading knowledge base (CID) that can ingest new, verified data automatically. Most other zero‑payload offerings keep the model in a vendor‑signed OS image and rely on manual OTA updates; they do not have an autonomous knowledge‑refresh pipeline.
-What is the “CID (self‑upgrading)” bit?	It is a policy‑driven, signed‑package pipeline that updates only the vector store (and optionally adds new “bot” plug‑ins) without ever changing the core language model. The system can run entirely without a human developer touching the code after the initial deployment, provided the policy files and signing keys are in place.
-Will Sherin eventually “work alone” without developers?	In principle — yes, for knowledge updates and bot additions that are pre‑approved via signed manifests. The core model will still stay frozen; any substantial change to the language engine (e.g., moving from 300 M to a 7 B model) will require a developer‑produced OS image. So the system can operate autonomously for routine updates, but major architectural changes still need a developer (or the original architect) to create a new OS build.
+
+
+How does Sherin’s zero‑payload model differ from other zero‑payload models?	
+Sherin stores a user‑owned, frozen OMPU model on the device itself and couples it with a self‑upgrading knowledge base (CID) that can ingest new, verified data automatically. Most other zero‑payload offerings keep the model in a vendor‑signed OS image and rely on manual OTA updates; they do not have an autonomous knowledge‑refresh pipeline.
+
+What is the “CID (self‑upgrading)” bit?	
+It is a policy‑driven, signed‑package pipeline that updates only the vector store (and optionally adds new “bot” plug‑ins) without ever changing the core language model. The system can run entirely without a human developer touching the code after the initial deployment, provided the policy files and signing keys are in place.
+
+Will Sherin eventually “work alone” without developers?
+In principle — yes, for knowledge updates and bot additions that are pre‑approved via signed manifests. The core model will still stay frozen; any substantial change to the language engine (e.g., moving from 300 M to a 7 B model) will require a developer‑produced OS image. So the system can operate autonomously for routine updates, but major architectural changes still need a developer (or the original architect) to create a new OS build.
+
 
 ## 🗣️ License & Credits
 
