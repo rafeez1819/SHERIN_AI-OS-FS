@@ -289,7 +289,421 @@ docs(readme): update architecture + test log (2025-10-14)
 # ────────────────────────────────────────────
 # End of daily log — Sherin OS Canvas Core ✅
 # ────────────────────────────────────────────
+# ============================================================================
+# SHERIN OS - MASTER SYSTEM INTEGRATION
+# Complete forensic witness device operation
+# ============================================================================
 
+$ErrorActionPreference = "Continue"
+$BaseDir = "C:\Sherin_OS"
+
+# Device Configuration
+$DeviceConfig = @{
+    DeviceID = "SHERIN-$(Get-Random -Maximum 999999 -Minimum 100000)"
+    Version = "3.0"
+    StartTime = Get-Date
+    
+    # Camera settings
+    CaptureInterval = 10  # seconds
+    ChunkCount = 3        # Rolling buffer size
+    Resolution = "1280x720"
+    FPS = 30
+    
+    # Heartbeat settings
+    HeartbeatInterval = 5  # seconds
+    HeartbeatCount = 0
+    
+    # RAM buffer (simulated)
+    RAMBuffer = @()
+    MaxRAMSize = 15 * 1024 * 1024  # 15 MB
+    
+    # Paths
+    LogPath = "$BaseDir\NDIR\logs\forensic_tiny_log.jsonl"
+    RAMPath = "$BaseDir\NDIR\data\ram"
+    HeartbeatPath = "$BaseDir\NDIR\logs\heartbeat.log"
+}
+
+Clear-Host
+
+# ============================================================================
+# ASCII BANNER
+# ============================================================================
+
+
+                   ███████╗██╗  ██╗███████╗██████╗ ██╗███╗   ██╗
+                   ██╔════╝██║  ██║██╔════╝██╔══██╗██║████╗  ██║
+                   ███████╗███████║█████╗  ██████╔╝██║██╔██╗ ██║
+                   ╚════██║██╔══██║██╔══╝  ██╔══██╗██║██║╚██╗██║
+                   ███████║██║  ██║███████╗██║  ██║██║██║ ╚████║
+                   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝
+
+                          🔒 FORENSIC WITNESS DEVICE v3.0" 
+                          Device ID: $($DeviceConfig.DeviceID)
+
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" 
+
+
+# ============================================================================
+# INITIALIZE SYSTEM
+# ============================================================================
+
+Write-Host "🚀 SYSTEM INITIALIZATION" -ForegroundColor Yellow
+Write-Host ""
+
+# Create directories
+$dirs = @($DeviceConfig.RAMPath, (Split-Path $DeviceConfig.LogPath), (Split-Path $DeviceConfig.HeartbeatPath))
+foreach ($dir in $dirs) {
+    if (-not (Test-Path $dir)) {
+        New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    }
+}
+
+# Load encryption keys
+$keysDir = Join-Path $BaseDir "NDIR\keys"
+$masterKey = Get-Content (Join-Path $keysDir "master.key") -Raw | ConvertFrom-Json
+$signingKey = Get-Content (Join-Path $keysDir "audit_signing.key") -Raw | ConvertFrom-Json
+
+Write-Host "  ✓ Device ID: $($DeviceConfig.DeviceID)" -ForegroundColor Green
+Write-Host "  ✓ Encryption Keys Loaded" -ForegroundColor Green
+Write-Host "  ✓ Master Key: $($masterKey.key_id)" -ForegroundColor Gray
+Write-Host "  ✓ Signing Key: $($signingKey.key_id)" -ForegroundColor Gray
+Write-Host ""
+
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
+
+function Get-SHA256Hash {
+    param([string]$Data)
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($Data)
+    $hash = [System.Security.Cryptography.SHA256]::Create().ComputeHash($bytes)
+    return [BitConverter]::ToString($hash).Replace("-", "")
+}
+
+function Get-LastChainHash {
+    if (Test-Path $DeviceConfig.LogPath) {
+        $lastLine = Get-Content $DeviceConfig.LogPath -Tail 1 -ErrorAction SilentlyContinue
+        if ($lastLine) {
+            $entry = $lastLine | ConvertFrom-Json
+            return $entry._chain_hash
+        }
+    }
+    return ""
+}
+
+function Write-TinyLog {
+    param(
+        [string]$ChunkHash,
+        [string]$EventType = "CAPTURE"
+    )
+    
+    $prevHash = Get-LastChainHash
+    $timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+    
+    $entry = @{
+        device_id = $DeviceConfig.DeviceID
+        timestamp = $timestamp
+        event_type = $EventType
+        chunk_hash = $ChunkHash
+        prev_hash = $prevHash
+        heartbeat_count = $DeviceConfig.HeartbeatCount
+        signature = "SIG_$($signingKey.key_hash.Substring(0, 16))"
+    }
+    
+    # Calculate chain hash
+    $entryJson = $entry | ConvertTo-Json -Compress -Depth 10
+    $chainData = "$prevHash$entryJson"
+    $entry._chain_hash = Get-SHA256Hash -Data $chainData
+    
+    # Append to log
+    $entry | ConvertTo-Json -Compress | Add-Content $DeviceConfig.LogPath -Encoding UTF8
+    
+    return $entry
+}
+
+function Invoke-CameraCapture {
+    param([int]$ChunkNumber)
+    
+    Write-Host "  📹 Capturing Chunk $ChunkNumber ($($DeviceConfig.CaptureInterval)s)..." -ForegroundColor Cyan
+    
+    # Simulate camera capture (in production, use FFmpeg or GStreamer)
+    $captureData = @{
+        chunk_id = $ChunkNumber
+        timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+        resolution = $DeviceConfig.Resolution
+        fps = $DeviceConfig.FPS
+        duration = $DeviceConfig.CaptureInterval
+        size_bytes = Get-Random -Minimum 3000000 -Maximum 5000000
+        encrypted = $true
+        encryption_key = $masterKey.key_hash.Substring(0, 16)
+    }
+    
+    # Calculate hash
+    $dataJson = $captureData | ConvertTo-Json -Compress
+    $captureData.content_hash = Get-SHA256Hash -Data $dataJson
+    
+    # Add to RAM buffer (circular buffer)
+    if ($DeviceConfig.RAMBuffer.Count -ge $DeviceConfig.ChunkCount) {
+        $oldest = $DeviceConfig.RAMBuffer[0]
+        $DeviceConfig.RAMBuffer = $DeviceConfig.RAMBuffer[1..($DeviceConfig.RAMBuffer.Count-1)]
+        Write-Host "     ♻️  Overwrote chunk from $($oldest.timestamp)" -ForegroundColor Gray
+    }
+    
+    $DeviceConfig.RAMBuffer += $captureData
+    
+    # Write to tiny log
+    $logEntry = Write-TinyLog -ChunkHash $captureData.content_hash -EventType "CAPTURE"
+    
+    Write-Host "     ✓ Chunk $ChunkNumber captured" -ForegroundColor Green
+    Write-Host "     ✓ Hash: $($captureData.content_hash.Substring(0, 16))..." -ForegroundColor Gray
+    Write-Host "     ✓ Size: $([math]::Round($captureData.size_bytes/1MB, 2)) MB" -ForegroundColor Gray
+    Write-Host "     ✓ Log Entry: $($logEntry._chain_hash.Substring(0, 16))..." -ForegroundColor Gray
+    Write-Host ""
+    
+    return $captureData
+}
+
+function Send-Heartbeat {
+    $DeviceConfig.HeartbeatCount++
+    
+    $heartbeat = @{
+        device_id = $DeviceConfig.DeviceID
+        timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+        beat_number = $DeviceConfig.HeartbeatCount
+        status = "OPERATIONAL"
+        ram_buffer_count = $DeviceConfig.RAMBuffer.Count
+        log_entries = if (Test-Path $DeviceConfig.LogPath) { (Get-Content $DeviceConfig.LogPath).Count } else { 0 }
+        uptime_seconds = ((Get-Date) - $DeviceConfig.StartTime).TotalSeconds
+        signature = "HB_$($signingKey.key_hash.Substring(0, 16))"
+    }
+    
+    # Save heartbeat
+    $heartbeat | ConvertTo-Json -Compress | Add-Content $DeviceConfig.HeartbeatPath -Encoding UTF8
+    
+    # Simulate LightLink broadcast (optical pulse)
+    Write-Host "  💓 Heartbeat #$($DeviceConfig.HeartbeatCount) [OPTICAL PULSE]" -ForegroundColor Yellow
+    Write-Host "     Status: OPERATIONAL | Buffer: $($DeviceConfig.RAMBuffer.Count)/$($DeviceConfig.ChunkCount) | Uptime: $([math]::Round($heartbeat.uptime_seconds, 0))s" -ForegroundColor Gray
+    
+    # Write to tiny log
+    Write-TinyLog -ChunkHash "HEARTBEAT_$($DeviceConfig.HeartbeatCount)" -EventType "HEARTBEAT" | Out-Null
+    
+    Write-Host ""
+}
+
+function Show-SystemStatus {
+    Write-Host ""
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Gray
+    Write-Host "📊 SYSTEM STATUS" -ForegroundColor Yellow
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Gray
+    Write-Host ""
+    
+    $uptime = (Get-Date) - $DeviceConfig.StartTime
+    $logCount = if (Test-Path $DeviceConfig.LogPath) { (Get-Content $DeviceConfig.LogPath).Count } else { 0 }
+    
+    Write-Host "  Device ID:        $($DeviceConfig.DeviceID)" -ForegroundColor White
+    Write-Host "  Status:           🟢 OPERATIONAL" -ForegroundColor Green
+    Write-Host "  Uptime:           $([math]::Round($uptime.TotalSeconds, 0))s" -ForegroundColor Gray
+    Write-Host "  RAM Buffer:       $($DeviceConfig.RAMBuffer.Count)/$($DeviceConfig.ChunkCount) chunks" -ForegroundColor Gray
+    Write-Host "  Heartbeats:       $($DeviceConfig.HeartbeatCount)" -ForegroundColor Gray
+    Write-Host "  Tiny Log:         $logCount entries" -ForegroundColor Gray
+    Write-Host ""
+    
+    if ($DeviceConfig.RAMBuffer.Count -gt 0) {
+        Write-Host "  📹 Current RAM Buffer:" -ForegroundColor Cyan
+        for ($i = 0; $i -lt $DeviceConfig.RAMBuffer.Count; $i++) {
+            $chunk = $DeviceConfig.RAMBuffer[$i]
+            Write-Host "     [$($i+1)] $($chunk.timestamp) | $($chunk.content_hash.Substring(0, 16))... | $([math]::Round($chunk.size_bytes/1MB, 2)) MB" -ForegroundColor Gray
+        }
+        Write-Host ""
+    }
+}
+
+function Export-ForensicEvidence {
+    param([string]$WarrantID)
+    
+    Write-Host ""
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Yellow
+    Write-Host "⚖️  FORENSIC EVIDENCE EXPORT" -ForegroundColor Yellow
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Yellow
+    Write-Host ""
+    
+    if ([string]::IsNullOrEmpty($WarrantID)) {
+        Write-Host "  ❌ ERROR: Warrant ID required for evidence extraction" -ForegroundColor Red
+        Write-Host "  Usage: Provide warrant number for chain of custody" -ForegroundColor Yellow
+        return
+    }
+    
+    $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $evidencePath = Join-Path $BaseDir "NDIR\backup\evidence_${DeviceConfig.DeviceID}_$timestamp"
+    New-Item -ItemType Directory -Path $evidencePath -Force | Out-Null
+    
+    Write-Host "  🔒 Warrant ID: $WarrantID" -ForegroundColor Cyan
+    Write-Host "  📁 Export Path: $evidencePath" -ForegroundColor Gray
+    Write-Host ""
+    
+    # Export tiny log
+    if (Test-Path $DeviceConfig.LogPath) {
+        Copy-Item $DeviceConfig.LogPath -Destination (Join-Path $evidencePath "forensic_log.jsonl")
+        Write-Host "  ✓ Exported: Tiny Log ($((Get-Content $DeviceConfig.LogPath).Count) entries)" -ForegroundColor Green
+    }
+    
+    # Export heartbeat log
+    if (Test-Path $DeviceConfig.HeartbeatPath) {
+        Copy-Item $DeviceConfig.HeartbeatPath -Destination (Join-Path $evidencePath "heartbeat.log")
+        Write-Host "  ✓ Exported: Heartbeat Log ($($DeviceConfig.HeartbeatCount) beats)" -ForegroundColor Green
+    }
+    
+    # Export RAM buffer
+    if ($DeviceConfig.RAMBuffer.Count -gt 0) {
+        $ramExport = @{
+            device_id = $DeviceConfig.DeviceID
+            extraction_time = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+            warrant_id = $WarrantID
+            chunks = $DeviceConfig.RAMBuffer
+        }
+        $ramExport | ConvertTo-Json -Depth 10 | Set-Content (Join-Path $evidencePath "ram_buffer.json") -Encoding UTF8
+        Write-Host "  ✓ Exported: RAM Buffer ($($DeviceConfig.RAMBuffer.Count) chunks, $([math]::Round(($DeviceConfig.RAMBuffer | Measure-Object -Property size_bytes -Sum).Sum / 1MB, 2)) MB)" -ForegroundColor Green
+    }
+    
+    # Generate chain verification report
+    Write-Host "  🔍 Verifying chain integrity..." -ForegroundColor Cyan
+    
+    $verificationReport = @{
+        device_id = $DeviceConfig.DeviceID
+        warrant_id = $WarrantID
+        extraction_time = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+        officer_name = $env:USERNAME
+        computer_name = $env:COMPUTERNAME
+        chain_status = "VALID"
+        total_entries = 0
+        verified_signatures = 0
+    }
+    
+    if (Test-Path $DeviceConfig.LogPath) {
+        $prevHash = ""
+        $validEntries = 0
+        
+        foreach ($line in Get-Content $DeviceConfig.LogPath) {
+            $entry = $line | ConvertFrom-Json
+            $verificationReport.total_entries++
+            
+            # Verify chain
+            $entryCopy = $entry.PSObject.Copy()
+            $chainHash = $entryCopy._chain_hash
+            $entryCopy.PSObject.Properties.Remove('_chain_hash')
+            $entryJson = $entryCopy | ConvertTo-Json -Compress -Depth 10
+            $expectedHash = Get-SHA256Hash -Data "$prevHash$entryJson"
+            
+            if ($expectedHash -eq $chainHash) {
+                $validEntries++
+                $verificationReport.verified_signatures++
+            }
+            
+            $prevHash = $chainHash
+        }
+        
+        if ($validEntries -eq $verificationReport.total_entries) {
+            Write-Host "  ✅ Chain Integrity: VERIFIED ($validEntries/$($verificationReport.total_entries) entries)" -ForegroundColor Green
+        } else {
+            Write-Host "  ❌ Chain Integrity: BROKEN ($validEntries/$($verificationReport.total_entries) valid)" -ForegroundColor Red
+            $verificationReport.chain_status = "COMPROMISED"
+        }
+    }
+    
+    $verificationReport | ConvertTo-Json -Depth 10 | Set-Content (Join-Path $evidencePath "verification_report.json") -Encoding UTF8
+    Write-Host "  ✓ Generated: Verification Report" -ForegroundColor Green
+    
+    # Create sealed evidence package
+    $sealedPackage = @{
+        warrant_id = $WarrantID
+        device_id = $DeviceConfig.DeviceID
+        extraction_time = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+        officer = $env:USERNAME
+        files = @("forensic_log.jsonl", "heartbeat.log", "ram_buffer.json", "verification_report.json")
+        chain_status = $verificationReport.chain_status
+        seal_signature = "SEAL_$($signingKey.key_hash.Substring(0, 32))"
+    }
+    
+    $sealedPackage | ConvertTo-Json -Depth 10 | Set-Content (Join-Path $evidencePath "EVIDENCE_SEAL.json") -Encoding UTF8
+    Write-Host "  🔒 Created: Evidence Seal" -ForegroundColor Green
+    
+    Write-Host ""
+    Write-Host "  ✅ Evidence extraction complete!" -ForegroundColor Green
+    Write-Host "  📦 Package: $evidencePath" -ForegroundColor Cyan
+    Write-Host ""
+    
+    Start-Process explorer.exe -ArgumentList "/select,`"$evidencePath`""
+}
+
+# ============================================================================
+# MAIN OPERATION LOOP
+# ============================================================================
+
+Write-Host "🎬 STARTING FORENSIC WITNESS OPERATION" -ForegroundColor Green
+Write-Host ""
+Write-Host "  Operation Mode: 10-second capture, 5-second heartbeat" -ForegroundColor Gray
+Write-Host "  Press Ctrl+C to stop and export evidence" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Gray
+Write-Host ""
+
+# Initial heartbeat
+Send-Heartbeat
+
+$chunkCounter = 0
+$lastCapture = Get-Date
+$lastHeartbeat = Get-Date
+
+try {
+    while ($true) {
+        $now = Get-Date
+        
+        # Camera capture every 10 seconds
+        if (($now - $lastCapture).TotalSeconds -ge $DeviceConfig.CaptureInterval) {
+            $chunkCounter++
+            Invoke-CameraCapture -ChunkNumber $chunkCounter
+            $lastCapture = $now
+        }
+        
+        # Heartbeat every 5 seconds
+        if (($now - $lastHeartbeat).TotalSeconds -ge $DeviceConfig.HeartbeatInterval) {
+            Send-Heartbeat
+            $lastHeartbeat = $now
+        }
+        
+        # Status update every 30 seconds
+        if ($chunkCounter -gt 0 -and $chunkCounter % 3 -eq 0) {
+            Show-SystemStatus
+        }
+        
+        Start-Sleep -Seconds 1
+    }
+} catch {
+    Write-Host ""
+    Write-Host "⚠️  Operation interrupted" -ForegroundColor Yellow
+} finally {
+    Write-Host ""
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Gray
+    Write-Host "🛑 STOPPING FORENSIC WITNESS OPERATION" -ForegroundColor Yellow
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Gray
+    
+    Show-SystemStatus
+    
+    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Gray
+    Write-Host ""
+    
+    $export = Read-Host "Export evidence? (Enter Warrant ID or press Enter to skip)"
+    
+    if (-not [string]::IsNullOrEmpty($export)) {
+        Export-ForensicEvidence -WarrantID $export
+    }
+    
+    Write-Host ""
+    Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Green
+    Write-Host "║        SHERIN OS SESSION TERMINATED              ║" -ForegroundColor Green
+    Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Green
+    Write-Host ""
+}
 🚀 Milestone Update – Sherin OS Data Transmission Breakthrough
 
 Summary
