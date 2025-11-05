@@ -237,11 +237,11 @@ C:\Sherin_OS\NDIR\Canvas\projects\demo_chat\
  → SHA-256 hash only, no raw audio
  → Toast popup 1-3 s with song title / source
  → Requires CONSENT.OK + 120B approval
-C:\Sherin_OS\NDIR\Canvas\projects\audiosense\
+|C:\Sherin_OS\NDIR\Canvas\projects\audiosense\
 │ audio_probe.py
 │ settings.json
 │ audio_audit.log
-C:\Sherin_OS\NDIR\Canvas\modules\
+|C:\Sherin_OS\NDIR\Canvas\modules\
 │ audiosense_probe_v1.json
 
 # 4️⃣ Policy + approval (120B)
