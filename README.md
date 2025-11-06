@@ -48,7 +48,7 @@ Sherin also perceives the real world through the user’s device — sharing the
 ---
 ╔══════════════════════════════════════╗
 
-║ 🔊  SHERIN OS AUDIO INTELLIGENCE REPORT – OCT 2025         ║
+║ 🔊  SHERIN OS AUDIO INTELLIGENCE REPORT – OCT 2025          ║
 
 ╚══════════════════════════════════════╝
 
@@ -340,7 +340,7 @@ Clear-Host
                           🔒 FORENSIC WITNESS DEVICE v3.0" 
                           Device ID: $($DeviceConfig.DeviceID)
 
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" 
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 # ============================================================================
@@ -700,7 +700,7 @@ try {
     
     Write-Host ""
     Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Green
-    Write-Host "║        SHERIN OS SESSION TERMINATED              ║" -ForegroundColor Green
+    Write-Host "║        SHERIN OS SESSION TERMINATED               ║" -ForegroundColor Green
     Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Green
     Write-Host ""
 }
@@ -2154,14 +2154,14 @@ class RAMSHFSLayer:
 
 ### Comparison & Recommendation
 
-| Metric | Option 1 (ROM Monitor) | Option 2 (RAM SHFS) | Hybrid (Both) |
-|--------|------------------------|---------------------|---------------|
-| **Protection Coverage** | Firmware only | Memory only | Firmware + Memory |
-| **CPU Overhead** | ~1% | ~5% | ~6% |
-| **Attack Detection** | After compromise | Before damage | Comprehensive |
-| **Response Time** | 60 seconds | Real-time | Real-time |
-| **False Positives** | Very low | Low | Low |
-| **Recommended For** | All devices | High-security | Production ✅ |
+| Metric | Option 1 (ROM Monitor) | Option 2 (RAM SHFS)  | Hybrid (Both)  |
+|--------|------------------------|----------------------|----------------|
+| **Protection Coverage** | Firmware only | Memory only  |Firmware+Memory |
+| **CPU Overhead**    ~1% |      ~5%      |     ~6%      |                |
+| **Attack Detection**| After compromise | Before damage | Comprehensive  |
+| **Response Time**   |    60 seconds    |   Real-time   |   Real-time    |
+| **False Positives** |    Very low      |      Low      |      Low       |
+| **Recommended For** |   All devices    | High-security |Production ✅  ||
 
 **Recommendation:** Deploy **BOTH** options for maximum security (defense in depth).
 
@@ -2286,7 +2286,7 @@ Sherin OS:
 
 > “If my brain is powerful, Sherin will be powerful.”  
 > “If my brain is worst, Sherin won’t work.”
-
+— **MOHAMED RAFEEZ**
 ```
 I built Sherin OS alone — no board, no investors, no filters.  
 My truth is my law.  
@@ -2295,11 +2295,6 @@ Independence. Truth. Creation without permission. 🧠
 ```
 
 
----
-
-— **MOHAMED RAFEEZ**
-
----
 
 
 
