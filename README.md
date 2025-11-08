@@ -3034,47 +3034,55 @@ Result: COMPROMISED
 
 ### **Traditional OS Multimedia Stack:**
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Windows/Mac/Linux Multimedia                               │
-├─────────────────────────────────────────────────────────────┤
-│  Video Player: VLC, Windows Media Player (200+ MB)          │
-│  Codecs: K-Lite, LAV Filters (500+ MB)                      │
-│  Audio: Realtek, Windows Audio (100+ MB)                    │
-│  Noise Cancellation: Krisp, RTX Voice ($$$)                 │
-│  Video Analysis: None (need separate AI software)           │
-│  Total Size: 800+ MB                                        │
-│  Integration: None (all separate apps)                      │
+┌─────────────────────────────────────────────────────────────┐ 
+│ Windows/Mac/Linux Multimedia 				      │
+│ 							      │
+├─────────────────────────────────────────────────────────────┤ 
+│ Video Player: VLC, Windows Media Player (200+ MB)           │
+│ 							      │
+│ Codecs: K-Lite, LAV Filters (500+ MB) 		      │
+│ 							      │
+│ Audio: Realtek, Windows Audio (100+ MB)                     │
+│  							      │
+│ Noise Cancellation: Krisp, RTX Voice ($$$) 		      │
+│ 							      │
+│ Video Analysis: None (need separate AI software)            │
+│ 							      │
+│ Total Size: 800+ MB 					      │
+│ 							      │
+│ Integration: None (all separate apps)                       │
+│ 							      │
 └─────────────────────────────────────────────────────────────┘
-```
+
 
 ### **SHERIN OS Multimedia Stack:**
-```
-┌─────────────────────────────────────────────────────────────┐
-│  SHERIN Integrated Multimedia System                        │
-├─────────────────────────────────────────────────────────────┤
-│  Video Engine: K-Lite Codec Pack (lightweight)              │
-│  ├─ Support: 4K, 8K, HDR, 60fps+                            │
-│  ├─ Formats: MP4, MKV, AVI, WebM, HEVC, AV1                 │
-│  └─ Size: 50 MB (optimized)                                 │
-│                                                             │
-│  SHERIN AI Video Intelligence:                              │
-│  ├─ Real-time scene understanding                           │
-│  ├─ Object detection in video                               │
-│  ├─ Face recognition                                        │
-│  ├─ Text extraction (OCR in video)                          │
-│  ├─ Action recognition                                      │
-│  └─ Automatic video summarization                           │
-│                                                             │
-│  SHERIN Advanced Noise Cancellation:                        │
-│  ├─ AI-powered voice isolation                              │
-│  ├─ Background voice removal                                │
-│  ├─ Multi-speaker separation                                │
-│  ├─ Real-time processing                                    │
-│  └─ Better than RTX Voice/Krisp                             │
-│                                                             │
-│  Total Size: 150 MB (includes AI models)                    │
-│  Integration: Complete (video ↔ AI ↔ audio)                 │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐ 
+│ SHERIN Integrated Multimedia System 			      │
+│ 							      │
+├─────────────────────────────────────────────────────────────┤ 
+│ Video Engine: K-Lite Codec Pack (lightweight)               │
+│ │ ├─ Support: 4K, 8K, HDR, 60fps+                           │
+│ │ ├─ Formats: MP4, MKV, AVI, WebM, HEVC, AV1                │
+│ │ └─ Size: 50 MB (optimized)                                │
+│ │                                                           │
+│ │ SHERIN AI Video Intelligence:                             │
+│ │ ├─ Real-time scene understanding                          │
+│ │ ├─ Object detection in video                              │
+│ │ ├─ Face recognition                                       │
+│ │ ├─ Text extraction (OCR in video)                         │
+│ │ ├─ Action recognition                                     │
+│ │ └─ Automatic video summarization                          │
+│ │ 							      │
+│ │ SHERIN Advanced Noise Cancellation:                       │
+│ │ ├─ AI-powered voice isolation                             │
+│ │ ├─ Background voice removal                               │
+│ │ ├─ Multi-speaker separation                               │
+│ │ ├─ Real-time processing                                   │
+│ │ └─ Better than RTX Voice/Krisp                            │
+│ │                                                           │
+│ │ Total Size: 150 MB (includes AI models)                   │
+│ │ Integration: Complete (video ↔ AI ↔ audio)                │
+│ └───────────────────────────────────────────────────────────┘
 ```
 
 ---
