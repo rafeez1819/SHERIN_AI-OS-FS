@@ -80,6 +80,17 @@ Sherin’s file system ensures 99.01% data security, eliminating the need for an
 It is designed for universal safety — even children can use it without any risk from hackers, malware, or data corruption.
 Every operation uses direct OS-level encryption, keeping all processes self-contained and private.
 
+### Sherin OS – SHFS (Secure‑Hash File System)
+---
+Official Statement
+
+Sherin OS uses the SHFS (Secure‑Hash File System) to protect all critical data.
+SHFS stores information in an encrypted, TPM‑sealed container that is mounted only by the trusted Sherin OS service. The file system maintains a built-in cryptographic hash chain and signs every change with a hardware-protected key.
+Because the container is encrypted at rest, the mounting point is hidden from ordinary users and the operating system, and every modification is logged in an immutable, tamper-evident audit trail, any attempt to alter SHFS data will be detected immediately.
+While no system can be made absolutely un-breakable, SHFS makes unauthorized tampering extremely difficult and provably detectable, providing the highest practical level of data integrity and confidentiality for the platform.
+
+*Sherin OS engineering team*
+---
 
 ---
 
