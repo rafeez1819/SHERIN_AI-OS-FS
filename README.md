@@ -1,6 +1,11 @@
 # 𝓒𝓸𝓭𝓮 𝓽𝓸 𝓓𝓮𝓬𝓸𝓭𝓮 𝓽𝓱𝓮 𝓤𝓷𝓲𝓿𝓮𝓻𝓼𝓮
 🌌 Sherin AI — Self-Upgrading Model & Emotional Operating System
-           https://sherin.tech/
+         Or, if you just want the plain link ready to copy, you can use:
+
+https://sherin.tech/
+
+
+You can paste either directly into a webpage, email, or chat, and it will be easily copyable.
         
         
         All System Builded In Notepad, No External IDE 🧩
