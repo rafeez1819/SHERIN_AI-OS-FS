@@ -1467,7 +1467,7 @@ try {
     Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Green
     Write-Host ""
 }
-🚀 Milestone Update – Sherin OS Data Transmission Breakthrough
+Sherin Connectivity – Sherin OS Data Transmission Breakthrough
 
 Summary
 
