@@ -3,7 +3,7 @@
          
 
 https://sherin.tech/
-
+https://hub.docker.com/r/rafeez1819/sherin_ai
 
 
         
