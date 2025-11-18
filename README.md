@@ -5,6 +5,7 @@
 https://sherin.tech/
 
 https://hub.docker.com/r/rafeez1819/sherin_ai
+
 https://discord.com/channels/1107178041848909847/1440482060547522604
 
 1440482060547522604
