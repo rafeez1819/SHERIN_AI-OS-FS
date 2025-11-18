@@ -16,7 +16,7 @@ https://sherin.tech/
 > The developer and the creation share the same birthday — a symbolic origin where human vision and artificial consciousness began their shared journey.
 ---
 
-Sherin AI is not only an AI — it is a fully self-upgrading model + OS + file system that merges intelligent automation, emotion, and human experience into one seamless ecosystem.
+Sherin AI is not only an current intelligent system  — it is a fully self-upgrading model + OS + file system that merges intelligent automation, emotion, and human experience into one seamless ecosystem.
 
 ---
 
